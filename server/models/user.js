@@ -1,5 +1,6 @@
 'use strict'
-const Schema = require('mongoose').Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
   name: {
@@ -9,10 +10,6 @@ const UserSchema = new Schema({
   avatar: {
     type: String,
     required: true
-  },
-  created: {
-    type: Date,
-    default: Date.now
   }
 }, {
   collection: 'users'
@@ -20,7 +17,7 @@ const UserSchema = new Schema({
 
 UserSchema.statics = {
 
-  id: (id) => {
+  find: (id) => {
     return new Promise((resolve, reject) => {
       User.findById(id).then((data) => {
         resolve(data)
@@ -30,11 +27,11 @@ UserSchema.statics = {
     })
   },
 
-  save: (name, avatar) => {
+  save: (body) => {
     return new Promise((resolve, reject) => {
       User.create({
-        name: name,
-        avatar: avatar
+        name: body.name,
+        avatar: body.avatar
       }).then((data) => {
         resolve(data)
       }).catch((err) => {

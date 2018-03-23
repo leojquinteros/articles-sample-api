@@ -9,10 +9,14 @@ const find = (id) => {
       return reject(errors.invalidObjectID)
     }
     User.find(id).then((data) => {
-      resolve({
-        successful: true,
-        data: data
-      })
+      if(!data) {
+        reject(errors.userNotFound)
+      } else {
+        resolve({
+          successful: true,
+          data: data
+        })
+      }
     }).catch((err) => {
       console.log(err)
       reject(err)
@@ -20,12 +24,12 @@ const find = (id) => {
   })
 }
 
-const save = (body) => {
+const create = (body) => {
   return new Promise((resolve, reject) => {
     if (!body.name) {
       return reject(errors.missingInput)
     }
-    User.save(body.name, body.avatar).then((data) => {
+    User.save(body).then((data) => {
       resolve({
         successful: true,
         data: data.id
@@ -37,4 +41,5 @@ const save = (body) => {
   })
 }
 
-exports.save = save
+exports.find = find
+exports.create = create

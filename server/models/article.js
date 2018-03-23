@@ -1,5 +1,6 @@
 'use strict'
-const Schema = require('mongoose').Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const ArticleSchema = new Schema({
   userId: {
@@ -18,11 +19,7 @@ const ArticleSchema = new Schema({
   tags: [{
     type: String,
     required: false
-  }],
-  created: {
-    type: Date,
-    default: Date.now
-  }
+  }]
 }, {
   collection: 'articles'
 })
@@ -31,7 +28,11 @@ ArticleSchema.statics = {
 
   retrieve: (tags) => {
     return new Promise((resolve, reject) => {
-      Article.find().then((data) => {
+      Article.find({
+          tags: {
+            $elemMatch: { $in: tags }
+          }
+        }).then((data) => {
         resolve(data)
       }).catch((err) => {
         reject(err)

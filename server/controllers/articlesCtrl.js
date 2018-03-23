@@ -6,11 +6,18 @@ const errors = require('../utils/config').errors
 
 const retrieve = (tags) => {
   return new Promise((resolve, reject) => {
-    Article.retrieve(tags).then((data) => {
-      resolve({
-        successful: true,
-        data: data
-      })
+    if (!tags) {
+      return reject(errors.missingInput)
+    }
+    Article.retrieve(tags.split(',')).then((data) => {
+      if(!data) {
+        reject(errors.articleNotFound)
+      } else {
+        resolve({
+          successful: true,
+          data: data
+        })
+      }
     }).catch((err) => {
       console.log(err)
       reject(err)
@@ -18,7 +25,7 @@ const retrieve = (tags) => {
   })
 }
 
-const save = (body) => {
+const create = (body) => {
   return new Promise((resolve, reject) => {
     if (!body.userId || !body.title || !body.text) {
       return reject(errors.missingInput)
@@ -82,7 +89,7 @@ const remove = (id) => {
   })
 }
 
-exports.save = save
+exports.create = create
 exports.edit = edit
 exports.remove = remove
 exports.retrieve = retrieve
