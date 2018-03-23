@@ -1,17 +1,15 @@
-'use strict';
-const express = require('express');
-const config = require('../config/config');
+'use strict'
+const express = require('express')
+const app = express()
 
-const app = express();
-
-app.use('/users', require('./root/users'));
-app.use('/articles', require('./root/articles'));
+app.use('/users', require('./root/users'))
+app.use('/articles', require('./root/articles'))
 
 app.use((req, res, next) => {
   res.status(404).json({
-      status: 404,
-      error:'Resource not found: ' + req.url
-  });
-});
+    status: 404,
+    error: 'Resource not found: ' + req.url
+  })
+})
 
-module.exports = app;
+module.exports = app

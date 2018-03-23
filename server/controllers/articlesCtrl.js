@@ -10,7 +10,7 @@ const retrieve = (tags) => {
       return reject(errors.missingInput)
     }
     Article.retrieve(tags.split(',')).then((data) => {
-      if(!data) {
+      if (!data) {
         reject(errors.articleNotFound)
       } else {
         resolve({
@@ -57,10 +57,14 @@ const edit = (id, body) => {
     }
     usersCtrl.find(body.userId).then((data) => {
       Article.edit(id, body).then((data) => {
-        resolve({
-          successful: true,
-          data: data.id
-        })
+        if (!data) {
+          reject(errors.articleNotFound)
+        } else {
+          resolve({
+            successful: true,
+            data: data.id
+          })
+        }
       }).catch((err) => {
         console.log(err)
         reject(err)
@@ -78,10 +82,14 @@ const remove = (id) => {
       return reject(errors.invalidObjectID)
     }
     Article.remove(id).then((data) => {
-      resolve({
-        successful: true,
-        data: data.id
-      })
+      if (!data) {
+        reject(errors.articleNotFound)
+      } else {
+        resolve({
+          successful: true,
+          data: data.id
+        })
+      }
     }).catch((err) => {
       console.log(err)
       reject(err)

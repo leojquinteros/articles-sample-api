@@ -9,7 +9,7 @@ const find = (id) => {
       return reject(errors.invalidObjectID)
     }
     User.find(id).then((data) => {
-      if(!data) {
+      if (!data) {
         reject(errors.userNotFound)
       } else {
         resolve({

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const ArticleSchema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId, 
+    type: Schema.Types.ObjectId,
     ref: 'user',
     required: true
   },
@@ -29,10 +29,10 @@ ArticleSchema.statics = {
   retrieve: (tags) => {
     return new Promise((resolve, reject) => {
       Article.find({
-          tags: {
-            $elemMatch: { $in: tags }
-          }
-        }).then((data) => {
+        tags: {
+          $elemMatch: { $in: tags }
+        }
+      }).then((data) => {
         resolve(data)
       }).catch((err) => {
         reject(err)
@@ -56,38 +56,30 @@ ArticleSchema.statics = {
   },
 
   edit: (id, body) => {
-    return new Promise((resolve, reject) => { 
-        Article.findByIdAndUpdate(id, {
-          $set: {
-            userId: body.userId,
-            title: body.title,
-            text: body.text,
-            tags: body.tags
-          }
-        }).then((data) => {
-          if (data) {
-            resolve(data)
-          } else {
-            reject(errors.articleNotFound);
-          }
-        }).catch((err) => {
-          reject(err)
-        })
-    }) 
+    return new Promise((resolve, reject) => {
+      Article.findByIdAndUpdate(id, {
+        $set: {
+          userId: body.userId,
+          title: body.title,
+          text: body.text,
+          tags: body.tags
+        }
+      }).then((data) => {
+        resolve(data)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
   },
 
   remove: (id) => {
     return new Promise((resolve, reject) => {
       Article.findByIdAndRemove(id).then((data) => {
-        if (data) {
-          resolve(data)
-        } else {
-          reject(errors.articleNotFound);
-        }
+        resolve(data)
       }).catch((err) => {
         reject(err)
       })
-    }) 
+    })
   }
 
 }
