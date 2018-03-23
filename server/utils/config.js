@@ -1,9 +1,8 @@
 'use strict'
 const errors = {
-
   invalidObjectID: {
     status: 422,
-    message: 'Invalid Object ID'
+    message: 'Invalid ID'
   },
   missingInput: {
     status: 400,
@@ -16,6 +15,10 @@ const errors = {
   userNotFound: {
     status: 404,
     message: 'User not found.'
+  },
+  articleNotFound: {
+    status: 404,
+    message: 'Article not found.'
   }
 }
 

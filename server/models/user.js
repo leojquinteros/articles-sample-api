@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   },
   avatar: {
     type: String,
-    required: false
+    required: true
   },
   created: {
     type: Date,
@@ -20,13 +20,23 @@ const UserSchema = new Schema({
 
 UserSchema.statics = {
 
-  save: (user) => {
+  id: (id) => {
     return new Promise((resolve, reject) => {
-      User.create(user).then((data) => {
-        resolve({
-          successful: true,
-          data: data.id
-        })
+      User.findById(id).then((data) => {
+        resolve(data)
+      }).catch((err) => {
+        reject(err)
+      })
+    })
+  },
+
+  save: (name, avatar) => {
+    return new Promise((resolve, reject) => {
+      User.create({
+        name: name,
+        avatar: avatar
+      }).then((data) => {
+        resolve(data)
       }).catch((err) => {
         reject(err)
       })

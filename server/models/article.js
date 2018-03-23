@@ -1,7 +1,5 @@
 'use strict'
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const ObjectID = mongoose.Types.ObjectId;
+const Schema = require('mongoose').Schema
 
 const ArticleSchema = new Schema({
   userId: {
@@ -34,71 +32,60 @@ ArticleSchema.statics = {
   retrieve: (tags) => {
     return new Promise((resolve, reject) => {
       Article.find().then((data) => {
-        resolve({
-          successful: true,
-          data: data
-        })
+        resolve(data)
       }).catch((err) => {
         reject(err)
       })
     })
   },
 
-  save: (article) => {
+  save: (body) => {
     return new Promise((resolve, reject) => {
-      Article.create(article).then((data) => {
-        resolve({
-          successful: true,
-          data: data.id
-        })
+      Article.create({
+        userId: body.userId,
+        title: body.title,
+        text: body.text,
+        tags: body.tags
+      }).then((data) => {
+        resolve(data)
       }).catch((err) => {
         reject(err)
       })
     })
   },
 
-  edit: (articleID, article) => {
-    return new Promise((resolve, reject) => {
-      if (ObjectID.isValid(articleID) && ObjectID.isValid(article.userId)) {
-        Article.findByIdAndUpdate(articleID, {
+  edit: (id, body) => {
+    return new Promise((resolve, reject) => { 
+        Article.findByIdAndUpdate(id, {
           $set: {
-            userId: article.userId,
-            title: article.title,
-            text: article.text,
-            tags: article.tags
+            userId: body.userId,
+            title: body.title,
+            text: body.text,
+            tags: body.tags
           }
         }).then((data) => {
           if (data) {
-            resolve({ 
-              successful: true, 
-              data: data.id 
-            })
+            resolve(data)
           } else {
             reject(errors.articleNotFound);
           }
         }).catch((err) => {
           reject(err)
         })
-      }
     }) 
   },
 
-  remove: (articleID) => {
+  remove: (id) => {
     return new Promise((resolve, reject) => {
-      if (ObjectID.isValid(articleID)) {
-        Article.findByIdAndRemove(articleID).then((data) => {
-          if (data) {
-            resolve({ 
-              successful: true, 
-              data: data.id
-            })
-          } else {
-            reject(errors.articleNotFound);
-          }
-        }).catch((err) => {
-          reject(err)
-        })
-      }
+      Article.findByIdAndRemove(id).then((data) => {
+        if (data) {
+          resolve(data)
+        } else {
+          reject(errors.articleNotFound);
+        }
+      }).catch((err) => {
+        reject(err)
+      })
     }) 
   }
 
