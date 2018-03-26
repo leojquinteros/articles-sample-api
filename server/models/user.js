@@ -12,7 +12,7 @@ const UserSchema = new Schema({
     required: true
   }
 }, {
-  collection: 'users'
+  collection: 'usersArticles'
 })
 
 UserSchema.statics = {

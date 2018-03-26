@@ -20,8 +20,8 @@ router.post('/', (req, res) => {
   })
 })
 
-router.patch('/', (req, res) => {
-  articlesCtrl.edit(req.body).then((result) => {
+router.patch('/:id', (req, res) => {
+  articlesCtrl.edit(req.params.id, req.body).then((result) => {
     config.commonSuccessResponse(res, result)
   }).catch((err) => {
     config.commonErrorResponse(res, err)

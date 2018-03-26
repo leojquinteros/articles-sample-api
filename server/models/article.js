@@ -30,9 +30,9 @@ ArticleSchema.statics = {
     return new Promise((resolve, reject) => {
       Article.find({
         tags: {
-          $elemMatch: { $in: tags }
+          $all: tags
         }
-      }).then((data) => {
+      }, 'userId title text tags').then((data) => {
         resolve(data)
       }).catch((err) => {
         reject(err)
