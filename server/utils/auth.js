@@ -9,10 +9,10 @@ const isAuthorized = (req, res, next) => {
     return config.commonErrorResponse(res, config.errors.authHeaderMissing)
   }
 
-  const token = header.substr(0, apiConfig.header.length) === 
+  const token = header.substr(0, apiConfig.header.length) ===
     apiConfig.header ? header.split(' ')[1] : header
 
-  if(token != apiConfig.key) {
+  if (token !== apiConfig.key) {
     return config.commonErrorResponse(res, config.errors.invalidApikey)
   }
 
