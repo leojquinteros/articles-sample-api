@@ -19,6 +19,14 @@ const errors = {
   articleNotFound: {
     status: 404,
     message: 'Article not found.'
+  },
+  authHeaderMissing: {
+    status: 401,
+    message: 'Authorization header missing.'
+  },
+  invalidApikey: {
+    status: 401,
+    message: 'Invalid API key.'
   }
 }
 

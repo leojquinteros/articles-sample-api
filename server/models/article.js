@@ -18,7 +18,7 @@ const ArticleSchema = new Schema({
   },
   tags: [{
     type: String,
-    required: false
+    required: true
   }]
 }, {
   collection: 'articles'

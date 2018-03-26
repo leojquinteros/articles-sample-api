@@ -27,7 +27,7 @@ const retrieve = (tags) => {
 
 const create = (body) => {
   return new Promise((resolve, reject) => {
-    if (!body.userId || !body.title || !body.text) {
+    if (!body.userId || !body.title || !body.text || !body.tags) {
       return reject(errors.missingInput)
     }
     usersCtrl.find(body.userId).then((data) => {
